@@ -25,7 +25,7 @@ const Header2 = (props) => {
 }
 
 
-const Display = (props) => <div>{props.text} {props.value}</div>
+const StatisticLine = (props) => <div>{props.text} {props.value}</div>
 
 
 const Statistics = (props) => {
@@ -37,8 +37,8 @@ const Statistics = (props) => {
 
   return (
     <div>
-      <Display text={'all'} value={all} />
-      <Display text={'average'} value={avg} />
+      <StatisticLine text={'all'} value={all} />
+      <StatisticLine text={'average'} value={avg} />
       <>positive {positive} % </>
     </div>
   )
@@ -55,9 +55,9 @@ const NotUsed = (props) => {
   }
   return (
     <div>
-      <Display text={'good'} value={props.list[0]} />
-      <Display text={'neutral'} value={props.list[1]} />
-      <Display text={'bad'} value={props.list[2]} />
+      <StatisticLine text={'good'} value={props.list[0]} />
+      <StatisticLine text={'neutral'} value={props.list[1]} />
+      <StatisticLine text={'bad'} value={props.list[2]} />
       <Statistics list={props.list} />
     </div>
   )
