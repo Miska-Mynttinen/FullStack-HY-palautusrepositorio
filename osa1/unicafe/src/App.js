@@ -25,10 +25,7 @@ const Header2 = (props) => {
 }
 
 
-const Display = props => (
-  <div>{props.text} {props.value}
-  </div>
-)
+const Display = (props) => <div>{props.text} {props.value}</div>
 
 
 const App = () => {
@@ -36,6 +33,11 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  let all = good + neutral + bad
+  let avg = (good - bad) / all
+  if (Number.isNaN(avg)) avg = 0
+  let positive = (100 * good) / all
+  if (Number.isNaN(positive)) positive = 0
 
   return (
     <div>
@@ -49,6 +51,9 @@ const App = () => {
         <Display text={'good'} value={good} />
         <Display text={'neutral'} value={neutral} />
         <Display text={'bad'} value={bad} />
+        <Display text={'all'} value={all} />
+        <Display text={'average'} value={avg} />
+        <>positive {positive} % </>
     </div>
   )
 }
