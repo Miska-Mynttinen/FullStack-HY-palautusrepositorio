@@ -25,7 +25,12 @@ const Header2 = (props) => {
 }
 
 
-const StatisticLine = (props) => <div>{props.text} {props.value}</div>
+const StatisticLine = (props) => (
+<tr>
+  <td>{props.text} </td>
+  <td>{props.value}</td>
+</tr>
+)
 
 
 const Statistics = (props) => {
@@ -36,11 +41,14 @@ const Statistics = (props) => {
   if (Number.isNaN(positive)) positive = 0
 
   return (
-    <div>
+    <>
       <StatisticLine text={'all'} value={all} />
       <StatisticLine text={'average'} value={avg} />
-      <>positive {positive} % </>
-    </div>
+      <tr>
+        <td>positive</td>
+        <td>{positive}%</td>
+      </tr>
+    </>
   )
 }
 
@@ -54,12 +62,14 @@ const NotUsed = (props) => {
     )
   }
   return (
-    <div>
+    <table>
+      <tbody>
       <StatisticLine text={'good'} value={props.list[0]} />
       <StatisticLine text={'neutral'} value={props.list[1]} />
       <StatisticLine text={'bad'} value={props.list[2]} />
       <Statistics list={props.list} />
-    </div>
+      </tbody>
+    </table>
   )
 }
 
