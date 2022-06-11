@@ -3,7 +3,7 @@ import { useState } from 'react'
 const Person = (props) => {
   return (
     <p>
-      {props.name}
+      {props.name} {props.number}
     </p>
   )
 }
@@ -13,26 +13,31 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
     const personObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
-    if (duplicateName) {
+    let Duplicate = persons.find(person => person.name === newName)
+    if (typeof Duplicate !== 'undefined') {
       window.alert(`${newName} is alreade added to phonebook`)
       return
     }
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
-  const duplicateName = (persons, name) => persons.map(person => person.name).includes(name)
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }
 
   return (
     <div>
@@ -44,13 +49,19 @@ const App = () => {
           onChange={handleNameChange}
         />
         </div>
+        <div>
+          number: <input 
+          value={newNumber}
+          onChange={handleNumberChange}
+        />
+        </div>
         <div> 
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
         {persons.map(person => 
-          <Person key={person.name} name={person.name}/>)}
+          <Person key={person.name} name={person.name} number={person.number}/>)}
     </div>
   )
 
