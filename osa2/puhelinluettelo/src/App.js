@@ -25,10 +25,24 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    let Duplicate = persons.find(person => person.name === newName)
-    if (typeof Duplicate !== 'undefined') {
-      window.alert(`${newName} is already added to phonebook`)
+    let duplicate = persons.find(person => person.name === newName)
+    const changedNumber = { ...duplicate, number: newNumber}
+    if (typeof duplicate !== 'undefined') {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+        .update(changedNumber.id, changedNumber)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id !== changedNumber.id ? person : returnedPerson))
+        })
+        .catch(error => {
+          alert(
+            `The number ${personObject} was already deleted from server`
+          )
+          setPersons(persons.filter(person => person.id !== changedNumber.id))
+        })
+
       return
+      }
     }
 
     personService
