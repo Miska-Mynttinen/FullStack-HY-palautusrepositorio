@@ -40,6 +40,22 @@ const App = () => {
       })
   }
 
+  const removeName = personToDelete => {
+    if (window.confirm(`Delete ${personToDelete}?`)) {
+      personService
+        .remove(personToDelete.id)
+        .then(
+          setPersons(persons.filter(person => person.id !== personToDelete.id))
+        )
+        .catch(error => {
+          alert(
+            `The number ${personToDelete} was already deleted from server`
+          )
+          setPersons(persons.filter(person => person.id !== personToDelete.id))
+        }) 
+    }
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -63,7 +79,7 @@ const App = () => {
       <h2>add a new</h2>
         <NewPerson addName={addName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-        <Persons filterShown={filterShown} />
+        <Persons filterShown={filterShown} removeName={removeName} />
     </div>
   )
 
