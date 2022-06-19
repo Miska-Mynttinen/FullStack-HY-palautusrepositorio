@@ -1,4 +1,5 @@
 const Country = ({filtered}) => {
+  
     return(
       <>
         <h2>{filtered[0].name.common}</h2>

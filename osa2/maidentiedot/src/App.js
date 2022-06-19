@@ -1,37 +1,12 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Display from './components/Display'
 import FilterForm from './components/FilterForm'
-import Countries from './components/Countries'
-import Country from './components/Country'
-
-const Display = ({filtered}) => {
-  if (filtered.length > 10) {
-    return(
-      <>Too many matches, specify another filter</>
-    )
-  }
-  if (filtered.length === 1) {
-    return (
-        <Country filtered={filtered} />
-      )
-  }
-  if (filtered.length === 0) {
-    return (
-        <>No matches</>
-      )
-  }
-  if ((filtered.length <= 10)) {
-    return (
-      <Countries filtered={filtered} />
-    )
-  }
-  
-}
-
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [showSelected, setShowSelected] = useState('')
+  const [countryNew, setCountryNew] = useState([])
 
   useEffect(() => {
     axios
@@ -52,7 +27,7 @@ const App = () => {
   return (
     <div>
       <FilterForm showSelected={showSelected} handleFilterChange={handleFilterChange}/>
-      <Display filtered={filtered} />
+      <Display filtered={filtered} countryNew={countryNew} setCountryNew={setCountryNew} />
     </div>
   )
 
