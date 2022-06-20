@@ -19,6 +19,16 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
+    },
+    {
+      "name": "Matti Nytkänen",
+      "number": "2346345345",
+      "id": 5
+    },
+    {
+      "name": "Pekka Jaa",
+      "number": "123123123",
+      "id": 6
     }
   ]
 }
