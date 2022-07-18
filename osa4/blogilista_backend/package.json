@@ -1,0 +1,25 @@
+{
+  "name": "blogilista_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rmdir /s build && mkdir build && cd C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_frontend && npm run build && xcopy /E C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_frontend\\build C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_backend\\build",
+    "lint": "eslint ."
+  },
+  "author": "Miska Mynttinen",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "nodemon": "^2.0.19"
+  }
+}
