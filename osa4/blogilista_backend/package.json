@@ -2,10 +2,10 @@
   "name": "blogilista_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rmdir /s build && mkdir build && cd C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_frontend && npm run build && xcopy /E C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_frontend\\build C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_backend\\build",
     "lint": "eslint ."
