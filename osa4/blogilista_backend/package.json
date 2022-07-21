@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rmdir /s build && mkdir build && cd C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_frontend && npm run build && xcopy /E C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_frontend\\build C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa4\\blogilista_backend\\build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest --verbose"
   },
   "author": "Miska Mynttinen",
   "license": "ISC",
@@ -20,6 +20,10 @@
   },
   "devDependencies": {
     "eslint": "^8.20.0",
+    "jest": "^28.1.3",
     "nodemon": "^2.0.19"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
