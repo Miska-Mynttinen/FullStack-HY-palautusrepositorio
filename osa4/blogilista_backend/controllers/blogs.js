@@ -1,13 +1,9 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
-blogsRouter.get('/', (request, response, next) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
-    .catch(error => next(error))
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({})
+  response.json(blogs)
 })
 
 
@@ -61,14 +57,5 @@ blogsRouter.put('/:id', (request, response, next) => {
     })
     .catch(error => next(error))
 })
-
-/*Doesn't work anymore because of changes but not needed in the program.
-blogsRouter.get('../../info', (request, response, next) => {
-  const requestTime = new Date()
-  Blog.find({}).then(blogs => {
-    response.send(`<p>Bloglist has info for ${blogs.length} blogs</p><p>${requestTime}</p>`)
-  })
-    .catch(error => next(error))
-})*/
 
 module.exports = blogsRouter
