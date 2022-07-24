@@ -67,4 +67,23 @@ describe('HTTP POST tests', () => {
       'Async post test blog'
     )
   })
+
+  test('if no value for blogs likes is set, set liket to 0(it is always 0 at the start already)', async () => {
+    const newBlog = {
+      title: 'Likes post test blog',
+      author: 'Like Tester',
+      url: 'blogLikeTesting.fi'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    const lastBlogLikes = blogsAtEnd[blogsAtEnd.length - 1].likes
+    expect(lastBlogLikes).toEqual(0)
+  })
 })
