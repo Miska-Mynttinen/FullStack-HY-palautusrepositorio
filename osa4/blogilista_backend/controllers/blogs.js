@@ -38,17 +38,19 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 
-blogsRouter.put('/:id', (request, response, next) => {
+blogsRouter.put('/:id',  async (request, response) => {
   const { title, author, url, likes } = request.body
 
-  Blog.findByIdAndUpdate(request.params.id,
+  const updatedBlogLikes = await Blog.findByIdAndUpdate(request.params.id,
     { title, author, url, likes },
     { new: true }
   )
-    .then(updatedBlog => {
-      response.json(updatedBlog)
-    })
-    .catch(error => next(error))
+
+  if (updatedBlogLikes) {
+    response.json(updatedBlogLikes.toJSON())
+  } else {
+    response.status(404).end
+  }
 })
 
 
