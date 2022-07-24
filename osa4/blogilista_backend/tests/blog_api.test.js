@@ -86,4 +86,38 @@ describe('HTTP POST tests', () => {
     const lastBlogLikes = blogsAtEnd[blogsAtEnd.length - 1].likes
     expect(lastBlogLikes).toEqual(0)
   })
+
+  test('blog without title or url is not added', async () => {
+    const newBlog = {
+      author: 'NotAdded Tester',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test('blog without author is added', async () => {
+    const newBlog = {
+      title: 'No author post test blog',
+      url: 'blogNoAuthorTesting.fi'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    const titles = blogsAtEnd.map(blog => blog.title)
+    expect(titles).toContainEqual(
+      'No author post test blog'
+    )
+  })
 })

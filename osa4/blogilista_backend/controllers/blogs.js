@@ -20,7 +20,7 @@ blogsRouter.get('/:id', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  if (!body.title || !body.author || !body.url) {
+  if (!body.title || !body.url) {
     return response.status(400).json({
       error: 'title, author or url missing'
     })
