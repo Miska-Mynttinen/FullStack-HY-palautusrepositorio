@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Blogs = ({blogs, addLike}) => {
+const Blogs = ({blogs, addLike, removeBlog}) => {
   return (
     <>
       {blogs.map(b => 
         <div key={b.title}>
           <Blog key={b.title} title={b.title} author={b.author} url={b.url} likes={b.likes} />
-          <Button handleClick={() => addLike(b)} />
+          <Button handleClick={() => addLike(b)} handleDelete={() => removeBlog(b)} />
         </div>
       )}
     </>
@@ -25,10 +25,15 @@ const Blog = (props) => {
   )
 }
 
-const Button = ({handleClick}) => (
+const Button = ({handleClick, handleDelete}) => (
+  <>
   <button onClick={handleClick}>
     like
   </button>
+  <button onClick={handleDelete}>
+    delete
+  </button>
+  </>
 )
 
 export default Blogs

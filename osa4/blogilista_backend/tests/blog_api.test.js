@@ -44,6 +44,34 @@ describe('HTTP GET tests', () => {
   })
 })
 
+
+describe('Blog id tests, viewing a specific blog', () => {
+
+  test('succeeds with a valid id', async () => {
+    const BlogsAtStart = await helper.blogsInDb()
+
+    const BlogToView = BlogsAtStart[0]
+
+    const resulBlog = await api
+      .get(`/api/blogs/${BlogToView.id}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const processedBlogToView = JSON.parse(JSON.stringify(BlogToView))
+
+    expect(resulBlog.body).toEqual(processedBlogToView)
+  })
+
+  test('fails with statuscode 400 id is invalid', async () => {
+    const invalidId = '5a3d5da59070081a82a3445'
+
+    await api
+      .get(`/api/blogs/${invalidId}`)
+      .expect(400)
+  })
+})
+
+
 describe('HTTP POST tests', () => {
 
   test('a valid blog can be added', async () => {
@@ -120,4 +148,30 @@ describe('HTTP POST tests', () => {
       'No author post test blog'
     )
   })
+})
+
+describe('deletion of a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(
+      helper.initialBlogs.length - 1
+    )
+
+    const titles = blogsAtEnd.map(r => r.title)
+
+    expect(titles).not.toContainEqual(blogToDelete.title)
+  })
+})
+
+
+afterAll(() => {
+  mongoose.connection.close()
 })

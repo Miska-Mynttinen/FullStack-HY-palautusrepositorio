@@ -105,6 +105,36 @@ const App = () => {
   }
 
 
+  const removeBlog = blogToDelete => {
+    if (window.confirm(`Delete ${blogToDelete.title}?`)) {
+      blogService
+        .remove(blogToDelete.id)
+        .then(
+          setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id)),
+
+          setSuccess(true),
+          setMessage(
+            `removed ${blogToDelete.title}`
+          ),
+          setTimeout(() => {
+            setMessage(null)
+            setSuccess(null)
+          }, 5000)
+        )
+        .catch(error => {
+          setSuccess(false)
+          setMessage(
+            `The number ${blogToDelete.title} was already deleted from server`
+          )
+          setTimeout(() => {
+            setMessage(null)
+            setSuccess(null)
+          }, 5000)
+          setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+        }) 
+    }
+  }
+
   return (
     <div>
       <h2>Bloglist</h2>
@@ -116,7 +146,7 @@ const App = () => {
           newUrl={newUrl}  handleUrlChange={handleUrlChange}
         />
       <h2>Blogs</h2>
-        <Blogs blogs={blogs} addLike={addLike}/>
+        <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} />
     </div>
   )
 
