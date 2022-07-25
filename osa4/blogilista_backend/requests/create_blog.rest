@@ -1,6 +1,9 @@
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXV1ayIsImlkIjoiNjJkZWIwZTZjNjI2OWUxYjA0Yjg2MmYyIiwiaWF0IjoxNjU4NzcyNjQxfQ.BMG3hPS90Dr2EFGm0ZrmkRWq0PIvyX_MUDOgwoDGmmE
 
 {
-"title": "Testi Blogi", "author": "Make Matala", "url": "testi_blogi.fi", "likes": 0
+  "title": "Matkablogi",
+  "author": "Taina Taru",
+  "url": "Matkailuni.fi"
 }
