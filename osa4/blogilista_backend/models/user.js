@@ -1,8 +1,15 @@
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
-  username: String,
-  name: String,
+  username: {
+    type: String,
+    minlength: [3, 'username must be atleast 3 character long'],
+    required: [true, 'username required']
+  },
+  name: {
+    type: String,
+    required: [true, 'name required']
+  },
   passwordHash: String,
   blogs: [
     {
