@@ -13,6 +13,7 @@
   "author": "Miska Mynttinen",
   "license": "ISC",
   "dependencies": {
+    "babel-eslint": "^10.1.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
@@ -22,6 +23,7 @@
     "mongoose": "^6.4.4"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.18.9",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "jest": "^28.1.3",
