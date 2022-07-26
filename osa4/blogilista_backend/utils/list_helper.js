@@ -1,3 +1,5 @@
+var lodash = require('lodash')
+
 const dummy = (blogs) => {
   return 1
 }
@@ -27,8 +29,28 @@ const favoriteBlog = (blogs) => {
   return ret
 }
 
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return undefined
+  }
+
+  const authors = blogs.map(blog => blog.author)
+  const authorsBlogsCount = {}
+
+  authors.forEach(author => {
+    authorsBlogsCount[author] = (authorsBlogsCount[author] || 0) + 1
+  })
+
+  const mostBlogsAmount = Math.max(Object.values(authorsBlogsCount)[0])
+
+  const authorWithMostBlogs = Object.entries(authorsBlogsCount).map(([key, value]) => ([key, (value === mostBlogsAmount)]))[0][0]
+
+  return { author: authorWithMostBlogs, blogs: mostBlogsAmount }
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
