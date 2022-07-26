@@ -24,8 +24,8 @@ describe('total likes', () => {
       id: '62d469fc9d64be138624c290',
       title: 'Testi Blogi',
       author: 'Make Matala',
-      'url': 'testi_blogi.fi',
-      'likes': 5
+      url: 'testi_blogi.fi',
+      likes: 5
     },
     {
       id: '62d5be9a169eba7465449dcb',

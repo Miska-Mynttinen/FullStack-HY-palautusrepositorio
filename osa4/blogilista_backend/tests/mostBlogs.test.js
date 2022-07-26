@@ -14,18 +14,18 @@ describe('favorite blog', () => {
 
   const listWithFourBlogs = [
     {
+      id: '62d469fc9d64be138624c290',
+      title: 'Testi Blogi',
+      author: 'Make Matala',
+      url: 'testi_blogi.fi',
+      likes: 5
+    },
+    {
       id: '62d4695011241e8223aebfc7',
       title: 'Turha blogi',
       author: 'Pekka Pouta',
       url: 'turha_blogi.fi',
       likes: 7
-    },
-    {
-      id: '62d469fc9d64be138624c290',
-      title: 'Testi Blogi',
-      author: 'Make Matala',
-      'url': 'testi_blogi.fi',
-      'likes': 5
     },
     {
       id: '62d5be9a169eba7465449dcb',

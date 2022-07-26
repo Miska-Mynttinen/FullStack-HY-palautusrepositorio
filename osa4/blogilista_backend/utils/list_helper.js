@@ -1,6 +1,6 @@
-var lodash = require('lodash')
+//var lodash = require('lodash')
 
-const dummy = (blogs) => {
+const dummy = (blogs) => { // eslint-disable-line
   return 1
 }
 
@@ -41,16 +41,34 @@ const mostBlogs = (blogs) => {
     authorsBlogsCount[author] = (authorsBlogsCount[author] || 0) + 1
   })
 
-  const mostBlogsAmount = Math.max(Object.values(authorsBlogsCount)[0])
+  const mostBlogsAmount = Math.max(...Object.values(authorsBlogsCount))
 
-  const authorWithMostBlogs = Object.entries(authorsBlogsCount).map(([key, value]) => ([key, (value === mostBlogsAmount)]))[0][0]
+  const authorWithMostBlogs = (Object.entries(authorsBlogsCount).filter(([key, value]) => [key, value][1] === mostBlogsAmount))[0][0]
 
   return { author: authorWithMostBlogs, blogs: mostBlogsAmount }
+}
+
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return undefined
+  }
+  const authorsLikesCount = {}
+
+  blogs.forEach(blog => {
+    authorsLikesCount[blog.author] = (authorsLikesCount[blog.author] || 0) + blog.likes
+  })
+
+  const mostLikesAmount = Math.max(...Object.values(authorsLikesCount))
+
+  const authorWithMostBlogs = (Object.entries(authorsLikesCount).filter(([key, value]) => [key, value][1] === mostLikesAmount))[0][0]
+
+  return { author: authorWithMostBlogs, likes: mostLikesAmount }
 }
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
