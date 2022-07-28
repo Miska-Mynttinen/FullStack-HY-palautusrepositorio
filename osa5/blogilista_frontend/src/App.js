@@ -25,25 +25,45 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedBlogAppUser', JSON.stringify(user)
+      )
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
       setSuccess(false)
       setMessage(
-        'wrong credentials'
+        'wrong username or password'
       )
       setTimeout(() => {
         setMessage(null)
         setSuccess(null)
       }, 5000)
     }
+  }
+
+  const handleLogout = (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogAppUser')
+    setUser(null)
   }
 
   const addBlog = (event) => {
@@ -170,17 +190,17 @@ const App = () => {
         ? <LoginForm handleLogin={handleLogin} password={password} username={username} setPassword={setPassword} setUsername={setUsername}/> 
         :
         <>
-          <p>{user.name} logged in</p>
+          <p>{user.name} logged in</p>  <button onClick={handleLogout}>logout</button>
           <h2>Blogs</h2>
-          <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} />
+          <h2>add a new blog</h2>
+            <NewBlog addBlog={addBlog} 
+            newTitle={newTitle} handleTitleChange={handleTitleChange} 
+            newAuthor={newAuthor} handleAuthorChange={handleAuthorChange} 
+            newUrl={newUrl}  handleUrlChange={handleUrlChange}
+            />
+            <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} />
         </>
       }
-      {/*<h2>add a new blog</h2>
-        <NewBlog addBlog={addBlog} 
-          newTitle={newTitle} handleTitleChange={handleTitleChange} 
-          newAuthor={newAuthor} handleAuthorChange={handleAuthorChange} 
-          newUrl={newUrl}  handleUrlChange={handleUrlChange}
-        />*/}
     </div>
   )
 
