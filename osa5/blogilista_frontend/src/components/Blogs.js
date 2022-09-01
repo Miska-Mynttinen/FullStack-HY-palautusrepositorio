@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
 const Blogs = ({blogs, addLike, removeBlog}) => {
+  blogs = blogs.sort((a,b) => b.likes - a.likes)
+  
   return (
     <>
       {blogs.map(b => 
