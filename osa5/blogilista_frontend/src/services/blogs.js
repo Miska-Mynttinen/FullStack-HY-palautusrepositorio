@@ -27,7 +27,12 @@ const update = (id, newObject) => {
 }
 
 const remove = id => {
-    const request = axios.delete(`${baseUrl}/${id}`)
+    // adds token to delete request. Is checked in backend.
+    const config = {
+      headers: { Authorization: token },
+    }
+
+    const request = axios.delete(`${baseUrl}/${id}`, config)
     return request.then(response => response.data)
 }
 
