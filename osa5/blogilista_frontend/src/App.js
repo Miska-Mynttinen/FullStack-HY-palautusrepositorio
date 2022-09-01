@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Blogs from './components/Blogs'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [message, setMessage] = useState(null)
   const [success, setSuccess] = useState(null)
   const [username, setUsername] = useState('') 
@@ -66,26 +64,16 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-      likes: 0
-    }
-
+  const addBlog = (blogObject) => {
+    newBlogRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setNewTitle('')
-        setNewAuthor('')
-        setNewUrl('')
 
         setSuccess(true)
         setMessage(
-          `Added ${newTitle}`
+          `Added ${blogObject.title}`
         )
         setTimeout(() => {
           setMessage(null)
@@ -95,7 +83,7 @@ const App = () => {
       .catch(error => {
         setSuccess(false)
         setMessage(
-          `Failed to add ${newTitle} to server`
+          `Failed to add ${blogObject.title}} to server`
         )
         setTimeout(() => {
           setMessage(null)
@@ -103,18 +91,6 @@ const App = () => {
         }, 5000)
         setBlogs(blogs.filter(person => person.id !== blogObject.id))
       })
-  }
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
   }
 
 
@@ -170,7 +146,7 @@ const App = () => {
         .catch(error => {
           setSuccess(false)
           setMessage(
-            `The number ${blogToDelete.title} was already deleted from server`
+            `The number ${blogToDelete.title} was already deleted from server or unauthorized token`
           )
           setTimeout(() => {
             setMessage(null)
@@ -181,23 +157,28 @@ const App = () => {
     }
   }
 
+  const newBlogRef = useRef()
 
   return (
     <div>
       <h2>Bloglist</h2>
         <Notification message={message} success={success}/>
-      {user === null 
-        ? <LoginForm handleLogin={handleLogin} password={password} username={username} setPassword={setPassword} setUsername={setUsername}/> 
-        :
+      {user === null ?
+        <Togglable buttonLabel='login'>
+          <LoginForm 
+            handleLogin={handleLogin} 
+            password={password} 
+            username={username} 
+            setPassword={setPassword} 
+            setUsername={setUsername}
+          />
+        </Togglable> :
         <>
-          <p>{user.name} logged in</p>  <button onClick={handleLogout}>logout</button>
+          <p>{user.name} logged in</p> <button onClick={handleLogout}>logout</button>
           <h2>Blogs</h2>
-          <h2>add a new blog</h2>
-            <NewBlog addBlog={addBlog} 
-            newTitle={newTitle} handleTitleChange={handleTitleChange} 
-            newAuthor={newAuthor} handleAuthorChange={handleAuthorChange} 
-            newUrl={newUrl}  handleUrlChange={handleUrlChange}
-            />
+            <Togglable buttonLabel="new blog" ref={newBlogRef}>
+              <NewBlog createBlog={addBlog} />
+            </Togglable>
             <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} />
         </>
       }
