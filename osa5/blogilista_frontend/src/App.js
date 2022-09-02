@@ -11,7 +11,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
   const [success, setSuccess] = useState(null)
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
@@ -80,6 +80,7 @@ const App = () => {
           setSuccess(null)
         }, 5000)
       })
+      // eslint-disable-next-line no-unused-vars
       .catch(error => {
         setSuccess(false)
         setMessage(
@@ -97,8 +98,8 @@ const App = () => {
   const addLike = b => {
     const copy = blogs.find(blog => blog.title === b.title)
     const addedLike = b.likes + 1
-    const changedBlog = { ...copy, likes: addedLike}
-    
+    const changedBlog = { ...copy, likes: addedLike }
+
     blogService
       .update(changedBlog.id, changedBlog)
       .then(returnedBlog => {
@@ -113,6 +114,7 @@ const App = () => {
           setSuccess(null)
         }, 5000)
       })
+      // eslint-disable-next-line no-unused-vars
       .catch(error => {
         setSuccess(false)
         setMessage(
@@ -143,6 +145,7 @@ const App = () => {
             setSuccess(null)
           }, 5000)
         )
+        // eslint-disable-next-line no-unused-vars
         .catch(error => {
           setSuccess(false)
           setMessage(
@@ -153,7 +156,7 @@ const App = () => {
             setSuccess(null)
           }, 5000)
           setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
-        }) 
+        })
     }
   }
 
@@ -162,24 +165,24 @@ const App = () => {
   return (
     <div>
       <h2>Bloglist</h2>
-        <Notification message={message} success={success}/>
+      <Notification message={message} success={success}/>
       {user === null ?
         <Togglable buttonLabel='login'>
-          <LoginForm 
-            handleLogin={handleLogin} 
-            password={password} 
-            username={username} 
-            setPassword={setPassword} 
+          <LoginForm
+            handleLogin={handleLogin}
+            password={password}
+            username={username}
+            setPassword={setPassword}
             setUsername={setUsername}
           />
         </Togglable> :
         <>
           <p>{user.name} logged in</p> <button onClick={handleLogout}>logout</button>
           <h2>Blogs</h2>
-            <Togglable buttonLabel="new blog" ref={newBlogRef}>
-              <NewBlog createBlog={addBlog} />
-            </Togglable>
-            <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} user={user} />
+          <Togglable buttonLabel="new blog" ref={newBlogRef}>
+            <NewBlog createBlog={addBlog} />
+          </Togglable>
+          <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} user={user} />
         </>
       }
     </div>

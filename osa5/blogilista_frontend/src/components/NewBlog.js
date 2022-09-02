@@ -19,7 +19,7 @@ const NewBlog = ({ createBlog }) => {
   }
 
   const addBlog = (event) => {
-  event.preventDefault()
+    event.preventDefault()
     createBlog({
       title: newTitle,
       author: newAuthor,
@@ -54,11 +54,11 @@ const NewBlog = ({ createBlog }) => {
             onChange={handleUrlChange}
           />
         </div>
-        <div> 
+        <div>
           <button type="submit">add</button>
         </div>
       </form>
-      </div>
+    </div>
   )
 }
 

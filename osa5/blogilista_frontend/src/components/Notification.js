@@ -1,23 +1,23 @@
 const Notification = ({ message, success }) => {
-	let messageStyle = ""
-	
-	if (message === null) {
-		return null
-	}
+  let messageStyle = ''
 
-	if (!success) {
-		messageStyle = "error"
-	}
+  if (message === null) {
+    return null
+  }
 
-	if (success) {
-		messageStyle = "success"
-	}
+  if (!success) {
+    messageStyle = 'error'
+  }
 
-	return (
-		<div className={messageStyle}>
-			{message}
-		</div>
-	)
+  if (success) {
+    messageStyle = 'success'
+  }
+
+  return (
+    <div className={messageStyle}>
+      {message}
+    </div>
+  )
 }
 
 export default Notification

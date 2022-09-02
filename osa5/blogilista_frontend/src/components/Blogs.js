@@ -11,10 +11,10 @@ const Blogs = ({ blogs, addLike, removeBlog, user }) => {
       return false
     }
   }
-  
+
   return (
     <>
-      {blogs.map(b => 
+      {blogs.map(b =>
         <div key={b.title}>
           <Blog key={b.title} title={b.title} author={b.author} url={b.url} likes={b.likes} />
           <Button handleClick={() => addLike(b)} handleDelete={() => removeBlog(b)} owner={checkOwner(b, user)} />
@@ -61,7 +61,7 @@ const Blog = (props) => {
 }
 
 
-const Button = ({handleClick, handleDelete, owner}) => {
+const Button = ({ handleClick, handleDelete, owner }) => {
   if (owner) {
     return (
       <>
