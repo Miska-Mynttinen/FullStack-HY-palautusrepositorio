@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Blogs = ({ blogs, addLike, removeBlog, user }) => {
   blogs = blogs.sort((a,b) => b.likes - a.likes)
@@ -83,5 +84,21 @@ const Button = ({handleClick, handleDelete, owner}) => {
   }
 }
 
+Blogs.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeBlog: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    token: PropTypes.string,
+    username: PropTypes.string,
+    name: PropTypes.string,
+  })
+}
+
+Button.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  owner: PropTypes.bool.isRequired
+}
 
 export default Blogs
