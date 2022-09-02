@@ -1,14 +1,22 @@
 import { useState } from 'react'
 
-const Blogs = ({blogs, addLike, removeBlog}) => {
+const Blogs = ({ blogs, addLike, removeBlog, user }) => {
   blogs = blogs.sort((a,b) => b.likes - a.likes)
+
+  const checkOwner = (blog, user) => {
+    if (blog.user.username === user.username) {
+      return true
+    } else {
+      return false
+    }
+  }
   
   return (
     <>
       {blogs.map(b => 
         <div key={b.title}>
           <Blog key={b.title} title={b.title} author={b.author} url={b.url} likes={b.likes} />
-          <Button handleClick={() => addLike(b)} handleDelete={() => removeBlog(b)} />
+          <Button handleClick={() => addLike(b)} handleDelete={() => removeBlog(b)} owner={checkOwner(b, user)} />
         </div>
       )}
     </>
@@ -51,17 +59,29 @@ const Blog = (props) => {
   )
 }
 
-const Button = ({handleClick, handleDelete}) => (
-  <>
-  <button onClick={handleClick}>
-    like
-  </button>
-  <button onClick={handleDelete}>
-    delete
-  </button>
-  </>
-)
 
+const Button = ({handleClick, handleDelete, owner}) => {
+  if (owner) {
+    return (
+      <>
+        <button onClick={handleClick}>
+          like
+        </button>
+        <button onClick={handleDelete}>
+          delete
+        </button>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <button onClick={handleClick}>
+          like
+        </button>
+      </>
+    )
+  }
+}
 
 
 export default Blogs

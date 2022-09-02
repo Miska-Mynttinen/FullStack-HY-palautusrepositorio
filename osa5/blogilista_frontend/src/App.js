@@ -146,7 +146,7 @@ const App = () => {
         .catch(error => {
           setSuccess(false)
           setMessage(
-            `The number ${blogToDelete.title} was already deleted from server or unauthorized token`
+            `The number ${blogToDelete.title} was already deleted from server`
           )
           setTimeout(() => {
             setMessage(null)
@@ -179,7 +179,7 @@ const App = () => {
             <Togglable buttonLabel="new blog" ref={newBlogRef}>
               <NewBlog createBlog={addBlog} />
             </Togglable>
-            <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} />
+            <Blogs blogs={blogs} addLike={addLike} removeBlog={removeBlog} user={user} />
         </>
       }
     </div>
