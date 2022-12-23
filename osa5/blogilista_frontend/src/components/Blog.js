@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Blog = (props) => {
   const blogStyle = {
@@ -29,11 +30,51 @@ const Blog = (props) => {
           <h4>{props.title} <button onClick={handleView}>hide</button></h4>
           <li>{props.author}</li>
           <li>{props.url}</li>
-          <li>{props.likes}</li>
+          <li>{props.likes} <LikeButton handleClick={props.addLike}/></li>
+          <DeleteButton handleDelete={props.removeBlog} owner={props.checkOwner} />
         </div>
       </ul>
     </div>
   )
 }
+
+
+
+const LikeButton = ({ handleClick }) => {
+  return (
+    <>
+      <button onClick={handleClick}>
+        like
+      </button>
+    </>
+  )
+}
+
+const DeleteButton = ({ handleDelete, owner }) => {
+  if (owner) {
+    return (
+      <>
+        <button onClick={handleDelete}>
+          delete
+        </button>
+      </>
+    )
+  } else {
+    return (
+      <>
+      </>
+    )
+  }
+}
+
+LikeButton.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+}
+
+DeleteButton.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
+  owner: PropTypes.bool.isRequired
+}
+
 
 export default Blog

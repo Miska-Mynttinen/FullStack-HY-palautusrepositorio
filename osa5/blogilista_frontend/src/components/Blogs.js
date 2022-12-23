@@ -13,42 +13,18 @@ const Blogs = ({ blogs, addLike, removeBlog, user }) => {
     }
   }
 
+  //chechowner needs to be constantly checked for user so the delete button doesn't show if someone logs in with a different account.
   return (
     <>
       {blogs.map(b =>
         <div key={b.title}>
-          <Blog key={b.title} title={b.title} author={b.author} url={b.url} likes={b.likes} />
-          <Button handleClick={() => addLike(b)} handleDelete={() => removeBlog(b)} owner={checkOwner(b, user)} />
+          <Blog key={b.title} title={b.title} author={b.author} url={b.url} likes={b.likes} addLike={() => addLike(b)} removeBlog={() => removeBlog(b)} checkOwner={checkOwner(b, user)} />
         </div>
       )}
     </>
   )
 }
-//addLike={addLike(b)} removeBlog={removeBlog(b)} checkOwner={checkOwner(b, user)}
 
-
-const Button = ({ handleClick, handleDelete, owner }) => {
-  if (owner) {
-    return (
-      <>
-        <button onClick={handleClick}>
-          like
-        </button>
-        <button onClick={handleDelete}>
-          delete
-        </button>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <button onClick={handleClick}>
-          like
-        </button>
-      </>
-    )
-  }
-}
 
 Blogs.propTypes = {
   blogs: PropTypes.array.isRequired,
@@ -59,12 +35,6 @@ Blogs.propTypes = {
     username: PropTypes.string,
     name: PropTypes.string,
   })
-}
-
-Button.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  owner: PropTypes.bool.isRequired
 }
 
 export default Blogs

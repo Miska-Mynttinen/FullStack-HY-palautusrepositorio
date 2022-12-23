@@ -19,11 +19,11 @@ const blog = {
 
 describe('<Blog />', () => {
   let container
-  //const mockHandler = jest.fn()
+  const mockHandlerLike = jest.fn()
 
   beforeEach(() => {
     container = render(
-      <Blog title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} />
+      <Blog title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} addLike={mockHandlerLike} />
     ).container
   })
 
@@ -80,6 +80,19 @@ describe('<Blog />', () => {
     expect(div).toHaveTextContent(blog.likes)
     expect(div).toBeVisible()
     expect(div).not.toHaveStyle('display: none')
+  })
+
+  test('when like button is clicked 2 times, components props event handler function is called 2 times', async () => {
+    jest.fn()
+    const user = userEvent.setup()
+    const viewButton = screen.getByText('view')
+    const likeButton = screen.getByText('like')
+
+    await user.click(viewButton)
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockHandlerLike.mock.calls).toHaveLength(2)
   })
 
 })
