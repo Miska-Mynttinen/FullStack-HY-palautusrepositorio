@@ -24,6 +24,7 @@ const Blogs = ({ blogs, addLike, removeBlog, user }) => {
     </>
   )
 }
+//addLike={addLike(b)} removeBlog={removeBlog(b)} checkOwner={checkOwner(b, user)}
 
 
 const Button = ({ handleClick, handleDelete, owner }) => {

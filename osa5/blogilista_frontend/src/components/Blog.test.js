@@ -19,6 +19,7 @@ const blog = {
 
 describe('<Blog />', () => {
   let container
+  //const mockHandler = jest.fn()
 
   beforeEach(() => {
     container = render(
@@ -27,19 +28,20 @@ describe('<Blog />', () => {
   })
 
 
+
   test('default renders blog title and author, but not url or likes', () => {
     //Only title and author to render
     const divTitle = container.querySelector('.blogTitle')
     expect(divTitle).not.toHaveStyle('display: none', { exact: false })
+    expect(divTitle).toBeVisible()
 
     //url and likes don't render because they are no visible
     const divFull = container.querySelector('.blogFull')
     expect(divFull).toHaveStyle('display: none')
+    expect(divFull).not.toBeVisible
 
 
     /* Pointless other tries and didn't fully work the way I wanted.
-    Div2.not.tobeVisible() kind of worked.
-
     const div = container.querySelector('.blogTitle')
 
     expect(div).toHaveTextContent(blog.title)
@@ -51,7 +53,6 @@ describe('<Blog />', () => {
     const div2 = container.querySelector('.blogFull')
 
     expect(div2).not.toBeVisible()
-    expect(div2).toBeVisible()
 
     let element = screen.querySelector('.blogTitle').queryByText(blog.title)
     expect(element).toBeDefined()
@@ -64,4 +65,21 @@ describe('<Blog />', () => {
     expect(element).toBeNull()
     */
   })
+
+  test('renders blog title, author, url and likes after view button is clicked.', async () => {
+    jest.fn()
+    const user = userEvent.setup()
+    const button = screen.getByText('view')
+
+    await user.click(button)
+
+    const div = container.querySelector('.blogFull')
+    expect(div).toHaveTextContent(blog.title)
+    expect(div).toHaveTextContent(blog.author)
+    expect(div).toHaveTextContent(blog.url)
+    expect(div).toHaveTextContent(blog.likes)
+    expect(div).toBeVisible()
+    expect(div).not.toHaveStyle('display: none')
+  })
+
 })
