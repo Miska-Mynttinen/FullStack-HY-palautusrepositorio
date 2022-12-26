@@ -40,18 +40,21 @@ const NewBlog = ({ createBlog }) => {
           title: <input
             value={newTitle}
             onChange={handleTitleChange}
+            placeholder = 'add title'
           />
         </div>
         <div>
           author: <input
             value={newAuthor}
             onChange={handleAuthorChange}
+            placeholder = 'add author'
           />
         </div>
         <div>
           url: <input
             value={newUrl}
             onChange={handleUrlChange}
+            placeholder = 'add url'
           />
         </div>
         <div>
