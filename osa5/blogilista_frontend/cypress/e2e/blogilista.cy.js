@@ -56,9 +56,21 @@ describe('Blog app', function() {
 
       cy.contains('newTestBlog')
       // clicks the view button on the new blog based on author to show url and the amount of likes
-      cy.contains('newTestAuthor').parent().find('button').click()
+      cy.contains('newTestAuthor').parent().find('button').contains('view').click()
       cy.contains('newTestUrl')
       cy.contains('0')
+    })
+
+    it('A blog can be liked', function() {
+      cy.createBlog({
+        title: 'testBlog1',
+        author: 'testBlogger1',
+        url: 'testBlogWebsite1'
+      })
+
+      cy.contains('testBlog1').parent().find('button').contains('view').click()
+      cy.contains('0').find('button').contains('like').click()
+      cy.contains('1')
     })
   })
 })
