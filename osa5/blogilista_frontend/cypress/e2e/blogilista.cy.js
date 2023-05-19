@@ -72,5 +72,21 @@ describe('Blog app', function() {
       cy.contains('0').find('button').contains('like').click()
       cy.contains('1')
     })
+
+    it.only('User can delete their own blog', function() {
+      // the user is the same as the one initiated in beforeEach for the login and the creation of the blog
+      cy.createBlog({
+        title: 'testBlog1',
+        author: 'testBlogger1',
+        url: 'testBlogWebsite1'
+      })
+
+      cy.contains('testBlog1').contains('view').click()
+      cy.contains('delete').click()
+      //cheks if removed succesfully notification is seen
+      cy.contains('removed testBlog1')
+      // checks for author because both can be seen normally and otherwise takes into account the notifications text
+      cy.contains('testBlogger1').should('not.exist')
+    })
   })
 })
