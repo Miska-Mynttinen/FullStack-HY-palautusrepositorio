@@ -8,7 +8,8 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "build:ui": "rmdir /s build && mkdir build && cd C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa5\\blogilista_frontend && npm run build && xcopy /E C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa5\\blogilista_frontend\\build C:\\Users\\miska\\FullStack-HY-palautusrepositorio\\osa5\\blogilista_backend\\build",
     "lint": "eslint .",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "author": "Miska Mynttinen",
   "license": "ISC",
