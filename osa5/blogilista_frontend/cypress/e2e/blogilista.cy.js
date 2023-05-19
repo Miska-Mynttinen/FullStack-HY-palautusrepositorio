@@ -19,6 +19,7 @@ describe('Blog app', function() {
     cy.get('#login-button')
   })
 
+
   describe('Login', function() {
     it('succeeds with correct credentials', function() {
       cy.contains('login').click()
@@ -36,6 +37,28 @@ describe('Blog app', function() {
       cy.get('#login-button').click()
 
       cy.contains('wrong username or password')
+    })
+  })
+
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      // uses login command in cypress/support/commands
+      cy.login({ username: 'tester', password: '1234' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('new blog').click()
+      cy.get('#title').type('newTestBlog')
+      cy.get('#author').type('newTestAuthor')
+      cy.get('#url').type('newTestUrl')
+      cy.get('#add-blog-button').click()
+
+      cy.contains('newTestBlog')
+      // clicks the view button on the new blog based on author to show url and the amount of likes
+      cy.contains('newTestAuthor').parent().find('button').click()
+      cy.contains('newTestUrl')
+      cy.contains('0')
     })
   })
 })
