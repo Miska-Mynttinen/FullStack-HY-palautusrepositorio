@@ -73,7 +73,7 @@ describe('Blog app', function() {
       cy.contains('1')
     })
 
-    it.only('User can delete their own blog', function() {
+    it('User can delete their own blog', function() {
       // the user is the same as the one initiated in beforeEach for the login and the creation of the blog
       cy.createBlog({
         title: 'testBlog1',
@@ -87,6 +87,33 @@ describe('Blog app', function() {
       cy.contains('removed testBlog1')
       // checks for author because both can be seen normally and otherwise takes into account the notifications text
       cy.contains('testBlogger1').should('not.exist')
+    })
+
+    it('Users who do not own the blog can not see the delete button', function() {
+      // the user is the same as the one initiated in beforeEach for the login and the creation of the blog
+      cy.createBlog({
+        title: 'testBlog1',
+        author: 'testBlogger1',
+        url: 'testBlogWebsite1'
+      })
+      // logout after creating blog
+      cy.contains('logout').click()
+
+      // create new user and login as them
+      const user2 = {
+        name: 'tester user2',
+        username: 'tester2',
+        password: '5678'
+      }
+      cy.request('POST', 'http://localhost:3003/api/users/', user2)
+      cy.contains('login').click()
+      cy.get('#username').type('tester2')
+      cy.get('#password').type('5678')
+      cy.get('#login-button').click()
+      cy.contains('tester user2 logged in')
+
+      cy.contains('testBlog1').contains('view').click()
+      cy.contains('delete').should('not.exist')
     })
   })
 })
