@@ -115,5 +115,48 @@ describe('Blog app', function() {
       cy.contains('testBlog1').contains('view').click()
       cy.contains('delete').should('not.exist')
     })
+
+    it('Blogs are arranged by the amount of likes from most to least', function() {
+      cy.createBlog({
+        title: 'testBlog1',
+        author: 'testBlogger1',
+        url: 'testBlogWebsite1'
+      })
+      cy.createBlog({
+        title: 'testBlog2',
+        author: 'testBlogger2',
+        url: 'testBlogWebsite2'
+      })
+      cy.createBlog({
+        title: 'testBlog3',
+        author: 'testBlogger3',
+        url: 'testBlogWebsite3'
+      })
+
+      // check original blog order
+      cy.get('ul').eq(0).contains('testBlog1')
+      cy.get('ul').eq(1).contains('testBlog2')
+      cy.get('ul').eq(2).contains('testBlog3')
+
+      // like the second blog once
+      cy.contains('testBlog2').parent().find('button').contains('view').click()
+      cy.contains('testBlogWebsite2').parent().contains('0').find('button').contains('like').click()
+      cy.contains('testBlog2').parent().contains('1')
+
+      // like the third blog twice
+      cy.contains('testBlog3').parent().find('button').contains('view').click()
+      cy.contains('testBlogWebsite3').parent().contains('0').find('button').contains('like').click()
+      cy.contains('testBlogWebsite3').parent().contains('1').find('button').contains('like').click()
+      cy.contains('testBlogWebsite3').parent().contains('2')
+
+      // view the first blogs likes also
+      cy.contains('testBlog1').parent().find('button').contains('view').click()
+      cy.contains('testBlogWebsite1').parent().contains('0')
+
+      // check that the blogs are ordered by the amount of likes
+      cy.get('ul').eq(0).contains('testBlog3')
+      cy.get('ul').eq(1).contains('testBlog2')
+      cy.get('ul').eq(2).contains('testBlog1')
+    })
   })
 })
