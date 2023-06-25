@@ -14,6 +14,12 @@ const App = () => {
       const anecdotes = queryClient.getQueryData('anecdotes')
       queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
     },
+    onError: () => {
+      notificationDispatch(addNotification('too short anecdote, must have length 5 or more'))
+      setTimeout(() => { 
+        notificationDispatch(addNotification(''))
+      }, 5000)
+    },
   })
 
   const addAnecdote = async (event) => {
