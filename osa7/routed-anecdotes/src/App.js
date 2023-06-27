@@ -91,10 +91,16 @@ const CreateNew = (props) => {
     }, 5000)
   }
 
+  const resetAll = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form style={{display: 'inline'}} onSubmit={handleSubmit}>
         <div>
           content
           <input {...content} />
@@ -109,6 +115,7 @@ const CreateNew = (props) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={resetAll}>reset</button>
     </div>
   )
 
