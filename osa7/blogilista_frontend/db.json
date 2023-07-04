@@ -1,0 +1,25 @@
+{
+  "blogs": [
+    {
+      "title": "Kissablogi",
+      "author": "Pekka Pouta",
+      "url": "kissablogini.fi",
+      "id": 1,
+      "likes": 0
+    },
+    {
+      "title": "Koirablogi",
+      "author": "Make Mahtava",
+      "url": "koirablogini.fi",
+      "id": 2,
+      "likes": 0
+    },
+    {
+      "title": "Matto blogi",
+      "author": "Late Latela",
+      "url": "hyvätmatot.fi",
+      "likes": 0,
+      "id": 3
+    }
+  ]
+}
