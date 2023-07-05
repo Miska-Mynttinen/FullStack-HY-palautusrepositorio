@@ -6,14 +6,17 @@ import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import { useDispatch } from 'react-redux'
+import { setNotificationNew } from './reducers/notificationReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [message, setMessage] = useState(null)
   const [success, setSuccess] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then(initialBlogs => {
@@ -45,11 +48,7 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       setSuccess(false)
-      setMessage('wrong username or password')
-      setTimeout(() => {
-        setMessage(null)
-        setSuccess(null)
-      }, 5000)
+      dispatch(setNotificationNew('wrong username or password', 5))
     }
   }
 
@@ -67,20 +66,14 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
 
         setSuccess(true)
-        setMessage(`Added ${blogObject.title}`)
-        setTimeout(() => {
-          setMessage(null)
-          setSuccess(null)
-        }, 5000)
+        dispatch(setNotificationNew(`Added ${blogObject.title}`, 5))
       })
       // eslint-disable-next-line no-unused-vars
       .catch(error => {
         setSuccess(false)
-        setMessage(`Failed to add ${blogObject.title}} to server`)
-        setTimeout(() => {
-          setMessage(null)
-          setSuccess(null)
-        }, 5000)
+        dispatch(
+          setNotificationNew(`Failed to add ${blogObject.title}} to server`, 5)
+        )
         setBlogs(blogs.filter(person => person.id !== blogObject.id))
       })
   }
@@ -98,20 +91,12 @@ const App = () => {
         )
 
         setSuccess(true)
-        setMessage(`Updated ${b.title} likes`)
-        setTimeout(() => {
-          setMessage(null)
-          setSuccess(null)
-        }, 5000)
+        dispatch(setNotificationNew(`Updated ${b.title} likes`, 5))
       })
       // eslint-disable-next-line no-unused-vars
       .catch(error => {
         setSuccess(false)
-        setMessage(`Failed to add like to ${b.title}`)
-        setTimeout(() => {
-          setMessage(null)
-          setSuccess(null)
-        }, 5000)
+        dispatch(setNotificationNew(`Failed to add like to ${b.title}`, 5))
         setBlogs(blogs.filter(person => person.id !== changedBlog.id))
       })
   }
@@ -124,22 +109,17 @@ const App = () => {
           setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id)),
 
           setSuccess(true),
-          setMessage(`removed ${blogToDelete.title}`),
-          setTimeout(() => {
-            setMessage(null)
-            setSuccess(null)
-          }, 5000)
+          dispatch(setNotificationNew(`removed ${blogToDelete.title}`, 5))
         )
         // eslint-disable-next-line no-unused-vars
         .catch(error => {
           setSuccess(false)
-          setMessage(
-            `The number ${blogToDelete.title} was already deleted from server`
+          dispatch(
+            setNotificationNew(
+              `The number ${blogToDelete.title} was already deleted from server`,
+              5
+            )
           )
-          setTimeout(() => {
-            setMessage(null)
-            setSuccess(null)
-          }, 5000)
           setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
         })
     }
@@ -150,7 +130,7 @@ const App = () => {
   return (
     <div>
       <h2>Bloglist</h2>
-      <Notification message={message} success={success} />
+      <Notification success={success} />
       {user === null ? (
         <Togglable buttonLabel="login">
           <LoginForm
