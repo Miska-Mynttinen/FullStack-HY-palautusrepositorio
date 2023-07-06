@@ -6,11 +6,11 @@ import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotificationNew } from './reducers/notificationReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [success, setSuccess] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -19,10 +19,12 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then(initialBlogs => {
-      setBlogs(initialBlogs)
-    })
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
+
+  const blogs = useSelector(state => {
+    return state.blogs
+  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -58,34 +60,13 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = blogObject => {
-    newBlogRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-
-        setSuccess(true)
-        dispatch(setNotificationNew(`Added ${blogObject.title}`, 5))
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch(error => {
-        setSuccess(false)
-        dispatch(
-          setNotificationNew(`Failed to add ${blogObject.title}} to server`, 5)
-        )
-        setBlogs(blogs.filter(person => person.id !== blogObject.id))
-      })
-  }
-
   const addLike = b => {
-    const copy = blogs.find(blog => blog.title === b.title)
+    const copy = blogs.find(blog => blog.id === b.id)
     const addedLike = b.likes + 1
     const changedBlog = { ...copy, likes: addedLike }
 
-    blogService
-      .update(changedBlog.id, changedBlog)
-      .then(returnedBlog => {
+    blogService.update(changedBlog.id, changedBlog)
+    /*.then(returnedBlog => {
         setBlogs(
           blogs.map(blog => (blog.id !== changedBlog.id ? blog : returnedBlog))
         )
@@ -98,14 +79,13 @@ const App = () => {
         setSuccess(false)
         dispatch(setNotificationNew(`Failed to add like to ${b.title}`, 5))
         setBlogs(blogs.filter(person => person.id !== changedBlog.id))
-      })
+      })*/
   }
 
   const removeBlog = blogToDelete => {
     if (window.confirm(`Delete ${blogToDelete.title}?`)) {
-      blogService
-        .remove(blogToDelete.id)
-        .then(
+      blogService.remove(blogToDelete.id)
+      /*.then(
           setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id)),
 
           setSuccess(true),
@@ -121,7 +101,7 @@ const App = () => {
             )
           )
           setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
-        })
+        })*/
     }
   }
 
@@ -147,10 +127,14 @@ const App = () => {
           <button onClick={handleLogout}>logout</button>
           <h2>Blogs</h2>
           <Togglable buttonLabel="new blog" ref={newBlogRef}>
-            <NewBlog createBlog={addBlog} />
+            <NewBlog
+              blogs={[...blogs]}
+              setSuccess={setSuccess}
+              newBlogRef={newBlogRef}
+            />
           </Togglable>
           <Blogs
-            blogs={blogs}
+            blogs={[...blogs]}
             addLike={addLike}
             removeBlog={removeBlog}
             user={user}
