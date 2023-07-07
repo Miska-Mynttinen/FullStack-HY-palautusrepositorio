@@ -36,11 +36,12 @@ const Blog = props => {
           <li>{props.url}</li>
           <li>
             {props.likes} <LikeButton handleClick={props.addLike} />
+            <DeleteButton
+              handleDelete={props.removeBlog}
+              owner={props.checkOwner}
+            />
           </li>
-          <DeleteButton
-            handleDelete={props.removeBlog}
-            owner={props.checkOwner}
-          />
+          <li>{props.username}</li>
         </div>
       </ul>
     </div>

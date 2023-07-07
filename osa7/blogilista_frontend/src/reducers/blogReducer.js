@@ -30,4 +30,27 @@ export const createBlog = content => {
   }
 }
 
+export const blogLike = id => {
+  return async dispatch => {
+    const blogToChange = await blogService.getOne(id)
+    const changedBlog = {
+      ...blogToChange,
+      likes: blogToChange.likes + 1,
+    }
+    await blogService.update(id, changedBlog)
+
+    const blogs = await blogService.getAll()
+    dispatch(setBlogs(blogs))
+  }
+}
+
+export const blogDelete = id => {
+  return async dispatch => {
+    await blogService.remove(id)
+
+    const blogs = await blogService.getAll()
+    dispatch(setBlogs(blogs))
+  }
+}
+
 export default blogSlice.reducer

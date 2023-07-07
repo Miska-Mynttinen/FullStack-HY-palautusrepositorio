@@ -60,51 +60,6 @@ const App = () => {
     setUser(null)
   }
 
-  const addLike = b => {
-    const copy = blogs.find(blog => blog.id === b.id)
-    const addedLike = b.likes + 1
-    const changedBlog = { ...copy, likes: addedLike }
-
-    blogService.update(changedBlog.id, changedBlog)
-    /*.then(returnedBlog => {
-        setBlogs(
-          blogs.map(blog => (blog.id !== changedBlog.id ? blog : returnedBlog))
-        )
-
-        setSuccess(true)
-        dispatch(setNotificationNew(`Updated ${b.title} likes`, 5))
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch(error => {
-        setSuccess(false)
-        dispatch(setNotificationNew(`Failed to add like to ${b.title}`, 5))
-        setBlogs(blogs.filter(person => person.id !== changedBlog.id))
-      })*/
-  }
-
-  const removeBlog = blogToDelete => {
-    if (window.confirm(`Delete ${blogToDelete.title}?`)) {
-      blogService.remove(blogToDelete.id)
-      /*.then(
-          setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id)),
-
-          setSuccess(true),
-          dispatch(setNotificationNew(`removed ${blogToDelete.title}`, 5))
-        )
-        // eslint-disable-next-line no-unused-vars
-        .catch(error => {
-          setSuccess(false)
-          dispatch(
-            setNotificationNew(
-              `The number ${blogToDelete.title} was already deleted from server`,
-              5
-            )
-          )
-          setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
-        })*/
-    }
-  }
-
   const newBlogRef = useRef()
 
   return (
@@ -129,16 +84,11 @@ const App = () => {
           <Togglable buttonLabel="new blog" ref={newBlogRef}>
             <NewBlog
               blogs={[...blogs]}
-              setSuccess={setSuccess}
               newBlogRef={newBlogRef}
+              setSuccess={setSuccess}
             />
           </Togglable>
-          <Blogs
-            blogs={[...blogs]}
-            addLike={addLike}
-            removeBlog={removeBlog}
-            user={user}
-          />
+          <Blogs blogs={[...blogs]} setSuccess={setSuccess} user={user} />
         </>
       )}
     </div>
