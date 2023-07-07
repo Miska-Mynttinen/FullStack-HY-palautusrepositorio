@@ -48,7 +48,7 @@ const Blogs = ({ blogs, setSuccess, user }) => {
     }
   }
 
-  //chechowner needs to be constantly checked for user so the delete button doesn't show if someone logs in with a different account.
+  //checkowner needs to be constantly checked for user so the delete button doesn't show if someone logs in with a different account.
   return (
     <>
       {blogs.map(b => (

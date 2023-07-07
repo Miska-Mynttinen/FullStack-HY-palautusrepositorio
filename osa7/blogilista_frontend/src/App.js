@@ -1,22 +1,21 @@
 import { useEffect, useState, useRef } from 'react'
-import blogService from './services/blogs'
-import loginService from './services/login'
 import Blogs from './components/Blogs'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
-import { setNotificationNew } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
+import { userLogout } from './reducers/loginReducer'
 
 const App = () => {
   const [success, setSuccess] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
+
+  const user = useSelector(state => {
+    return state.user
+  })
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -26,38 +25,9 @@ const App = () => {
     return state.blogs
   })
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
-
-  const handleLogin = async event => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username,
-        password,
-      })
-
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      setSuccess(false)
-      dispatch(setNotificationNew('wrong username or password', 5))
-    }
-  }
-
   const handleLogout = event => {
     event.preventDefault()
-    window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
+    dispatch(userLogout())
   }
 
   const newBlogRef = useRef()
@@ -68,13 +38,7 @@ const App = () => {
       <Notification success={success} />
       {user === null ? (
         <Togglable buttonLabel="login">
-          <LoginForm
-            handleLogin={handleLogin}
-            password={password}
-            username={username}
-            setPassword={setPassword}
-            setUsername={setUsername}
-          />
+          <LoginForm setSuccess={setSuccess} />
         </Togglable>
       ) : (
         <>
