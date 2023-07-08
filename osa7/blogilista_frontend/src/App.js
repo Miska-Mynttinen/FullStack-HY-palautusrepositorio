@@ -47,7 +47,12 @@ const App = () => {
 
   return (
     <div>
-      <Link to="/users">users</Link>
+      <div style={{ background: 'rgba(31,31,31,12%)', display: 'flex', gap: '8px' }}>
+        <Link to="/">blogs</Link>
+        <Link to="/users">users</Link>
+        {user.name} logged in
+        <button onClick={handleLogout}>logout</button>
+      </div>
       <h2>Bloglist</h2>
       <Notification success={success} />
       {user === null ? (
@@ -56,8 +61,6 @@ const App = () => {
         </Togglable>
       ) : (
         <>
-          <p>{user.name} logged in</p>{' '}
-          <button onClick={handleLogout}>logout</button>
           <Routes>
             <Route path="/blogs/:id" element={<BlogView blogs={[...blogs]} setSuccess={setSuccess}/>} />
             <Route path="/users/:id" element={<User users={users} />} />
