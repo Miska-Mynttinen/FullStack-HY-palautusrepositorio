@@ -4,9 +4,11 @@ import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import Users from './components/Users'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { userLogout } from './reducers/loginReducer'
+import { Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
   const [success, setSuccess] = useState(null)
@@ -34,6 +36,7 @@ const App = () => {
 
   return (
     <div>
+      <Link to="/users">users</Link>
       <h2>Bloglist</h2>
       <Notification success={success} />
       {user === null ? (
@@ -44,15 +47,29 @@ const App = () => {
         <>
           <p>{user.name} logged in</p>{' '}
           <button onClick={handleLogout}>logout</button>
-          <h2>Blogs</h2>
-          <Togglable buttonLabel="new blog" ref={newBlogRef}>
-            <NewBlog
-              blogs={[...blogs]}
-              newBlogRef={newBlogRef}
-              setSuccess={setSuccess}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <h2>Blogs</h2>
+                  <Togglable buttonLabel="new blog" ref={newBlogRef}>
+                    <NewBlog
+                      blogs={[...blogs]}
+                      newBlogRef={newBlogRef}
+                      setSuccess={setSuccess}
+                    />
+                  </Togglable>
+                  <Blogs
+                    blogs={[...blogs]}
+                    setSuccess={setSuccess}
+                    user={user}
+                  />
+                </div>
+              }
             />
-          </Togglable>
-          <Blogs blogs={[...blogs]} setSuccess={setSuccess} user={user} />
+            <Route path="/users" element={<Users />} />
+          </Routes>
         </>
       )}
     </div>

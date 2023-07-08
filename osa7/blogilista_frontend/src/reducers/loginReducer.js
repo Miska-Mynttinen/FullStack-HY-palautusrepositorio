@@ -4,7 +4,7 @@ import blogService from '../services/blogs'
 
 const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
 const userAtStart = loggedUserJSON ? JSON.parse(loggedUserJSON) : null
-blogService.setToken(userAtStart.token)
+loggedUserJSON ? blogService.setToken(userAtStart.token) : null
 
 const loginSlice = createSlice({
   name: 'user',
