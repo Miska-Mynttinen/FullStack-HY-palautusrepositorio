@@ -5,9 +5,11 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Users from './components/Users'
+import User from './components/User'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { userLogout } from './reducers/loginReducer'
+import { initializeUsers } from './reducers/userReducer'
 import { Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
@@ -25,6 +27,14 @@ const App = () => {
 
   const blogs = useSelector(state => {
     return state.blogs
+  })
+
+  useEffect(() => {
+    dispatch(initializeUsers())
+  }, [])
+
+  const users = useSelector(state => {
+    return state.users
   })
 
   const handleLogout = event => {
@@ -48,6 +58,8 @@ const App = () => {
           <p>{user.name} logged in</p>{' '}
           <button onClick={handleLogout}>logout</button>
           <Routes>
+            <Route path="/users/:id" element={<User users={users} />} />
+            <Route path="/users" element={<Users users={users} />} />
             <Route
               path="/"
               element={
@@ -68,7 +80,6 @@ const App = () => {
                 </div>
               }
             />
-            <Route path="/users" element={<Users />} />
           </Routes>
         </>
       )}
