@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Blogs from './components/Blogs'
 import NewBlog from './components/NewBlog'
+import BlogView from './components/BlogView'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
@@ -58,6 +59,7 @@ const App = () => {
           <p>{user.name} logged in</p>{' '}
           <button onClick={handleLogout}>logout</button>
           <Routes>
+            <Route path="/blogs/:id" element={<BlogView blogs={[...blogs]} setSuccess={setSuccess}/>} />
             <Route path="/users/:id" element={<User users={users} />} />
             <Route path="/users" element={<Users users={users} />} />
             <Route

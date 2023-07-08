@@ -52,9 +52,10 @@ const Blogs = ({ blogs, setSuccess, user }) => {
   return (
     <>
       {blogs.map(b => (
-        <div key={b.title}>
+        <div key={b.id}>
           <Blog
-            key={b.title}
+            key={b.id}
+            id={b.id}
             title={b.title}
             author={b.author}
             url={b.url}

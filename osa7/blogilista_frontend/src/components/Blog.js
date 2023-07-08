@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const Blog = props => {
   const blogStyle = {
@@ -24,7 +25,8 @@ const Blog = props => {
       <ul>
         <div style={hideWhenVisible} className="blogTitle">
           <h4>
-            {props.title} <button onClick={handleView}>view</button>
+            <Link to={`/blogs/${props.id}`}>{props.title}</Link>
+            <button onClick={handleView}>view</button>
           </h4>
           <li>{props.author}</li>
         </div>
@@ -35,7 +37,8 @@ const Blog = props => {
           <li>{props.author}</li>
           <li>{props.url}</li>
           <li>
-            {props.likes} <LikeButton handleClick={props.addLike} />
+            {props.likes} likes
+            <LikeButton handleClick={props.addLike} />
             <DeleteButton
               handleDelete={props.removeBlog}
               owner={props.checkOwner}
