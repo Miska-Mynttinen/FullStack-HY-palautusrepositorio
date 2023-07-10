@@ -12,6 +12,8 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { userLogout } from './reducers/loginReducer'
 import { initializeUsers } from './reducers/userReducer'
 import { Routes, Route, Link } from 'react-router-dom'
+import './App.css'
+import './index.css'
 
 const App = () => {
   const [success, setSuccess] = useState(null)
@@ -46,14 +48,17 @@ const App = () => {
   const newBlogRef = useRef()
 
   return (
-    <div>
-      <div style={{ background: 'rgba(31,31,31,12%)', display: 'flex', gap: '8px' }}>
-        <Link to="/">blogs</Link>
-        <Link to="/users">users</Link>
-        {user.name} logged in
-        <button onClick={handleLogout}>logout</button>
-      </div>
-      <h2>Bloglist</h2>
+    <div className='app'>
+      {(user !== null)
+        ? (<div style={{ background: 'rgba(117,106,94,80%)', border: '1px solid black', display: 'flex', alignItems: 'center', gap: '8px', padding: '8px', position: 'absolute', top: '10px', fontSize: '20px', fontWeight: '600' }}>
+          <Link to="/">blogs</Link>
+          <Link to="/users">users</Link>
+          <p>{user.name} logged in</p><button onClick={handleLogout}>logout</button>
+        </div>
+        )
+        : ('')
+      }
+      <h1 className='title'>Bloglist</h1>
       <Notification success={success} />
       {user === null ? (
         <Togglable buttonLabel="login">
@@ -69,14 +74,16 @@ const App = () => {
               path="/"
               element={
                 <div>
-                  <h2>Blogs</h2>
-                  <Togglable buttonLabel="new blog" ref={newBlogRef}>
-                    <NewBlog
-                      blogs={[...blogs]}
-                      newBlogRef={newBlogRef}
-                      setSuccess={setSuccess}
-                    />
-                  </Togglable>
+                  <div className='undertitle'>
+                    <h2>Blogs</h2>
+                    <Togglable buttonLabel="new blog" ref={newBlogRef}>
+                      <NewBlog
+                        blogs={[...blogs]}
+                        newBlogRef={newBlogRef}
+                        setSuccess={setSuccess}
+                      />
+                    </Togglable>
+                  </div>
                   <Blogs
                     blogs={[...blogs]}
                     setSuccess={setSuccess}
